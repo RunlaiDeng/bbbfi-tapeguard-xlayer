@@ -8,7 +8,7 @@ Native-USDC membership checkout, bounded automatic renewals and server-side paid
 - Market research & business plan: https://www.bbbfi.com/explore/access/business?lang=en
 - Optional guarded swap: https://www.bbbfi.com/explore/tapeguard?chain=xlayer
 - Shared Swap home: https://www.bbbfi.com/?chain=xlayer
-- Current 90-second walkthrough (UI + explicitly synthetic test results): https://asp.bbbfi.com/api/xlayer-access/demo.mp4
+- Current 90-second walkthrough (UI + explicitly synthetic test results): https://asp.bbbfi.com/api/xlayer-access/demo.mp4?v=2
 - Earlier treasury-only demo (does not demonstrate Access): https://www.bbbfi.com/social/xlayer/treasury-demo-v2.mp4
 - Interactive on-chain circuit: https://www.bbbfi.com/xlayer/about
 - Event: [Build X · TapeOut Accelerate](https://web3.okx.com/zh-hans/xlayer/build-x-series)
@@ -75,7 +75,7 @@ anvil --fork-url https://rpc.xlayer.tech --port 8597 --chain-id 196 --gas-price 
 node scripts/test-access-flow.mjs --fork
 ```
 
-Twenty additional Access Solidity tests, eleven SDK/payment-builder tests and nine HTTP/keeper flow checks pass. The fork uses impersonated local balances and does not submit mainnet customer payments. `deployments/access-fork-flow.json` explicitly records zero real customer orders and zero mainnet transactions. The HTTP test denies unpaid requests, delivers content only after a signed paid entitlement, runs the actual keeper to renew once, then cancels and denies access at expiry. A customer-created cheaper plan cannot unlock another server-pinned plan.
+Twenty additional Access Solidity tests, twenty-two SDK/session tests and ten HTTP/keeper flow checks pass. The fork uses impersonated local balances and does not submit mainnet customer payments. `deployments/access-fork-flow.json` explicitly records zero real customer orders and zero mainnet transactions. A server-only HMAC login session lasts one hour by default (at most 12 hours), so subsequent reads do not repeatedly prompt the wallet. Every read still checks fresh paid status; a login cookie never caches entitlement. The HTTP test denies unpaid requests, delivers content only after a signed paid entitlement, runs the actual keeper to renew once, then cancels and denies access at expiry. A customer-created cheaper plan cannot unlock another server-pinned plan.
 
 The independent renewal worker is at `scripts/access-keeper.mjs`. It signs only `charge(id)` against the fixed deployment, journals signed hashes before broadcasting and reconciles three confirmations. It holds its own limited gas wallet, not payer keys. Actual availability is checked through a fresh, contract-matched health endpoint; future uptime is not guaranteed. Public `/api/access/verify` is membership introspection only. Merchant servers must run the verifier with their own fixed plan ID and keep protected content off public frontend bundles.
 

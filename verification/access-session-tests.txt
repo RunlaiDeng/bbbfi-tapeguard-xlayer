@@ -1,0 +1,19 @@
+✔ one wallet signature creates a session; later paid reads need no new signature (6.260458ms)
+✔ session payload tampering cannot change the authenticated wallet (3.090125ms)
+✔ wrong or rotated server secret denies the session (2.668084ms)
+✔ session expiry forces a new login even when paid access remains (2.722125ms)
+✔ plan, origin, path, contract and chain scope cannot be reused elsewhere (2.755291ms)
+✔ refund or onchain expiry denies content despite a valid login session (3.303167ms)
+✔ a live renewal is visible through an existing session (2.35025ms)
+✔ RPC failure never falls back to the login grant (2.387458ms)
+✔ weak secrets and excessive login lifetimes are rejected (2.333417ms)
+✔ malformed or oversized cookies fail closed (0.151583ms)
+✔ a new session cannot be minted from a missing or invalid wallet signature (0.075084ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 255.50925

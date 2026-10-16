@@ -13,7 +13,7 @@
     "plan": "node scripts/deploy-xlayer.mjs",
     "treasury:report": "node scripts/treasury-report.mjs",
     "treasury:test": "node --test tests/treasury.test.mjs",
-    "access:test": "node --test tests/access.test.mjs",
+    "access:test": "node --test tests/access*.test.mjs",
     "access:flow": "node scripts/test-access-flow.mjs"
   },
   "dependencies": {

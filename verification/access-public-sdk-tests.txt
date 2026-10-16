@@ -1,23 +1,34 @@
 
 > bbbfi-tapeguard-xlayer@1.0.0 access:test
-> node --test tests/access.test.mjs
+> node --test tests/access*.test.mjs
 
-✔ service origins reject paths, credentials, unsafe schemes and nonlocal HTTP (0.847042ms)
-✔ USDC prices preserve six decimals and enforce economic bounds (0.2225ms)
-✔ a real wallet signature and paid entitlement pass (4.537042ms)
-✔ a customer-created cheaper plan never unlocks a different merchant plan (0.858375ms)
-✔ server must pin a plan, not accept arbitrary client claims (0.661875ms)
-✔ audience, resource, contract and stale signatures cannot be reused elsewhere (2.367167ms)
-✔ a forged signature or expired onchain membership denies content (4.453958ms)
-✔ RPC failure never falls back to a locally cached access grant (2.22625ms)
-✔ approval is exactly the bounded number of periods, never unlimited (1.236292ms)
-✔ approved checkout binds immutable terms, finite cycles and fresh deadline (1.007542ms)
-✔ changed terms, chain or insufficient balance cannot request payment (0.190917ms)
-ℹ tests 11
+✔ one wallet signature creates a session; later paid reads need no new signature (6.603375ms)
+✔ session payload tampering cannot change the authenticated wallet (2.767541ms)
+✔ wrong or rotated server secret denies the session (2.4285ms)
+✔ session expiry forces a new login even when paid access remains (2.56ms)
+✔ plan, origin, path, contract and chain scope cannot be reused elsewhere (2.8055ms)
+✔ refund or onchain expiry denies content despite a valid login session (2.821084ms)
+✔ a live renewal is visible through an existing session (2.608416ms)
+✔ RPC failure never falls back to the login grant (2.465417ms)
+✔ weak secrets and excessive login lifetimes are rejected (2.382292ms)
+✔ malformed or oversized cookies fail closed (0.163958ms)
+✔ a new session cannot be minted from a missing or invalid wallet signature (0.073583ms)
+✔ service origins reject paths, credentials, unsafe schemes and nonlocal HTTP (0.997ms)
+✔ USDC prices preserve six decimals and enforce economic bounds (0.269209ms)
+✔ a real wallet signature and paid entitlement pass (4.907916ms)
+✔ a customer-created cheaper plan never unlocks a different merchant plan (0.827375ms)
+✔ server must pin a plan, not accept arbitrary client claims (0.631417ms)
+✔ audience, resource, contract and stale signatures cannot be reused elsewhere (2.513667ms)
+✔ a forged signature or expired onchain membership denies content (4.412875ms)
+✔ RPC failure never falls back to a locally cached access grant (2.390666ms)
+✔ approval is exactly the bounded number of periods, never unlimited (1.220583ms)
+✔ approved checkout binds immutable terms, finite cycles and fresh deadline (1.0595ms)
+✔ changed terms, chain or insufficient balance cannot request payment (0.20925ms)
+ℹ tests 22
 ℹ suites 0
-ℹ pass 11
+ℹ pass 22
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 297.325667
+ℹ duration_ms 331.619333
