@@ -1,0 +1,19 @@
+✔ service origins reject paths, credentials, unsafe schemes and nonlocal HTTP (0.831292ms)
+✔ USDC prices preserve six decimals and enforce economic bounds (0.226875ms)
+✔ a real wallet signature and paid entitlement pass (4.578541ms)
+✔ a customer-created cheaper plan never unlocks a different merchant plan (0.829083ms)
+✔ server must pin a plan, not accept arbitrary client claims (0.708208ms)
+✔ audience, resource, contract and stale signatures cannot be reused elsewhere (2.768875ms)
+✔ a forged signature or expired onchain membership denies content (3.751292ms)
+✔ RPC failure never falls back to a locally cached access grant (2.06875ms)
+✔ approval is exactly the bounded number of periods, never unlimited (1.031ms)
+✔ approved checkout binds immutable terms, finite cycles and fresh deadline (1.146208ms)
+✔ changed terms, chain or insufficient balance cannot request payment (0.19425ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 247.362709

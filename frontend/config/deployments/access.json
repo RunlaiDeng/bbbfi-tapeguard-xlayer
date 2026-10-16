@@ -1,0 +1,15 @@
+{
+  "enabled": true,
+  "chainId": 196,
+  "address": "0x36757BaA2F0b767Ea4DCFb434F46ACD020046f47",
+  "feeRecipient": "0x2475Dcd4Fe333bE814Ef7C8f8CE8A1E9B5FcDEA0",
+  "feeBps": 100,
+  "keeperBps": 20,
+  "processor": "0x9de448A1CE9537d24199B3b5355239d73aA6F591",
+  "circuitId": "1",
+  "transactionHash": "0x126ec44d4e14a956ec90b6e3342da1ab6b58603d03f5ebd24d26c77c906486ff",
+  "blockNumber": 73387404,
+  "runtimeHash": "0x6a4721fa1c8e5cedbadf273a0258d712912e15ea6bdf3539d1b45c1e270b2a95",
+  "compiler": "0.8.23",
+  "deployedAt": "2026-10-16T13:14:23.842Z"
+}

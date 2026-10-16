@@ -1,0 +1,19 @@
+{
+  "compiler": "0.8.23+commit.f704f362",
+  "creationBytes": 11755,
+  "runtimeBytes": 9269,
+  "creationExact": true,
+  "runtimeExact": true,
+  "sourceFiles": [
+    "contracts/BBBFiAccess.sol",
+    "node_modules/@openzeppelin/contracts/interfaces/IERC1363.sol",
+    "node_modules/@openzeppelin/contracts/interfaces/IERC165.sol",
+    "node_modules/@openzeppelin/contracts/interfaces/IERC20.sol",
+    "node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol",
+    "node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+    "node_modules/@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol",
+    "node_modules/@openzeppelin/contracts/utils/ReentrancyGuard.sol",
+    "node_modules/@openzeppelin/contracts/utils/StorageSlot.sol",
+    "node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol"
+  ]
+}

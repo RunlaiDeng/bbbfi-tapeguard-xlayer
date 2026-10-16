@@ -29,7 +29,7 @@ export default function Treasury() {
   }
   return <article className={styles.page}>
     <Head><title>{zh?'资金备付｜BBBFi':'Treasury runway | BBBFi'}</title></Head>
-    <header className={styles.header}><div><span className={styles.eyebrow}>BBBFi Treasury · X Layer</span><h1>{zh?'先算清支出，再安排兑换。':'Plan your runway before converting.'}</h1><p>{zh?'用现有市场报价，把代币数量换算成可覆盖的 USDC 支出。':'Turn a planned token conversion into an estimated USDC operating runway.'}</p></div><Link href={`/explore/treasury/business?lang=${locale}`}>{zh?'服务与商业方案':'Service & business plan'} ↗</Link></header>
+    <header className={styles.header}><div><span className={styles.eyebrow}>BBBFi Treasury · X Layer</span><h1>{zh?'先算清支出，再安排兑换。':'Plan your runway before converting.'}</h1><p>{zh?'用现有市场报价，把代币数量换算成可覆盖的 USDC 支出。':'Turn a planned token conversion into an estimated USDC operating runway.'}</p></div><Link href={`/explore/access/business?lang=${locale}`}>{zh?'产品方向与商业研究':'Product direction & research'} ↗</Link></header>
     <div className={styles.grid}>
       <section className={styles.card}><h2>{zh?'备付计划':'Conversion plan'}</h2><form onSubmit={event=>{event.preventDefault();if(dirty)setInput({...form});else query.refetch();}}>
         <label>{zh?'准备兑换的资产':'Asset to convert'}<select value={form.asset} onChange={e=>change('asset',e.target.value)}>{TREASURY_ASSETS.filter(t=>t.symbol!=='USDC').map(t=><option key={t.symbol}>{t.symbol}</option>)}</select></label>

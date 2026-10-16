@@ -1,0 +1,30 @@
+Warning: This is a nightly build of Foundry. It is recommended to use the latest stable version. To mute this warning set `FOUNDRY_DISABLE_NIGHTLY_WARNING` in your environment.
+
+Compiling 2 files with Solc 0.8.23
+Solc 0.8.23 finished in 7.53s
+Compiler run successful!
+
+Ran 20 tests for test-solidity/BBBFiAccess.t.sol:BBBFiAccessTest
+[PASS] test_BoundedRenewalsAndExecutorShare() (gas: 418047)
+[PASS] test_CancelPreservesPaidAccessStopsFutureCharges() (gas: 378486)
+[PASS] test_CannotCancelOrPauseOthers() (gas: 343809)
+[PASS] test_CannotSubscribeAgainWhileActive() (gas: 353612)
+[PASS] test_CircuitFailureBlocksRealMoneyMovement() (gas: 377387)
+[PASS] test_EarlyAndDuplicateChargeRejected() (gas: 440736)
+[PASS] test_FirstPaymentDirectSettlementNoCustody() (gas: 348839)
+[PASS] test_ImplChangeFailsPaymentsButCancelWorks() (gas: 419769)
+[PASS] test_InsufficientBalanceDoesNotGrantAccess() (gas: 86335)
+[PASS] test_InvalidPlansAndCycleLimits() (gas: 111148)
+[PASS] test_MembershipExpiresAndWrongAudienceDenied() (gas: 324027)
+[PASS] test_MerchantRefundCancelsAndReturnsFullPrice() (gas: 434823)
+[PASS] test_NoBackBillingAfterLongKeeperOutage() (gas: 417024)
+[PASS] test_PaginationAndCounts() (gas: 340955)
+[PASS] test_PausingStopsPaymentsNotPaidAccess() (gas: 362353)
+[PASS] test_RefundWithoutMerchantFundsRevertsAllState() (gas: 418485)
+[PASS] test_ResubscribeCancelsOldAuthorization() (gas: 472780)
+[PASS] test_RevokedAllowancePreventsRenewal() (gas: 338114)
+[PASS] test_SinglePaymentNeverAutoRenews() (gas: 333372)
+[PASS] test_TermsMismatchAndExpiredIntentFail() (gas: 141177)
+Suite result: ok. 20 passed; 0 failed; 0 skipped; finished in 8.39ms (3.55ms CPU time)
+
+Ran 1 test suite in 14.33ms (8.39ms CPU time): 20 tests passed, 0 failed, 0 skipped (20 total tests)

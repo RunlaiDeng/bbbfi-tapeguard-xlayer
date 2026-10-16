@@ -1,0 +1,16 @@
+{
+  "isJobCompleted": true,
+  "verificationId": "19977bf0-e6d1-4bf4-822e-359b481332f1",
+  "jobStartTime": "2026-10-16T13:15:00Z",
+  "jobFinishTime": "2026-10-16T13:15:03Z",
+  "compilationTime": "3193",
+  "contract": {
+    "match": "exact_match",
+    "creationMatch": "exact_match",
+    "runtimeMatch": "exact_match",
+    "chainId": "196",
+    "address": "0x36757BaA2F0b767Ea4DCFb434F46ACD020046f47",
+    "verifiedAt": "2026-10-16T13:15:03Z",
+    "matchId": "56222841"
+  }
+}

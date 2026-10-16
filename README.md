@@ -1,12 +1,14 @@
-# BBBFi Treasury + TapeGuard on X Layer
+# BBBFi Access + TapeGuard on X Layer
 
-A free treasury runway calculator using existing X Layer market liquidity, plus optional V2 swap limits evaluated by a real TapeOut circuit.
+Native-USDC membership checkout, bounded automatic renewals and server-side paid access on X Layer, with payment predicates enforced through a real TapeOut circuit. The free treasury calculator and optional V2 swap guard remain available.
 
+- Access product: https://www.bbbfi.com/explore/access?chain=xlayer&lang=en
+- Server integration: https://www.bbbfi.com/explore/access/integrate?lang=en
 - Treasury tool: https://www.bbbfi.com/explore/treasury?lang=en
-- Market research & business plan: https://www.bbbfi.com/explore/treasury/business?lang=en
+- Market research & business plan: https://www.bbbfi.com/explore/access/business?lang=en
 - Optional guarded swap: https://www.bbbfi.com/explore/tapeguard?chain=xlayer
 - Shared Swap home: https://www.bbbfi.com/?chain=xlayer
-- Revised 109-second demo: https://www.bbbfi.com/social/xlayer/treasury-demo-v2.mp4
+- Earlier treasury-only demo (does not demonstrate Access): https://www.bbbfi.com/social/xlayer/treasury-demo-v2.mp4
 - Interactive on-chain circuit: https://www.bbbfi.com/xlayer/about
 - Event: [Build X · TapeOut Accelerate](https://web3.okx.com/zh-hans/xlayer/build-x-series)
 - Network: X Layer mainnet, chain ID **196**, native gas token **OKB**.
@@ -46,25 +48,48 @@ npm run treasury:report -- 'USD₮0' 1000 500
 
 ## Product, users and business
 
-Research covered swap aggregation (Uniswap, OKX), order execution (CoW), wallet controls (Safe), enterprise payments (Request Finance), simulation (Tenderly), and analytics (Dune). Primary references, dated comparisons, explicit costs and an interactive unit-economics calculator are in the [business plan](https://www.bbbfi.com/explore/treasury/business?lang=en). This review is not an exhaustive market census or evidence of customer demand.
+The manual 99/199-USDC report proposal is discontinued. The treasury calculator remains free. The selected product is **USDC checkout + bounded renewals + automatically expiring website/API membership**. Merchants install a server verifier and pin their own plan ID; a payment link alone does not secure content. The SDK validates wallet ownership, origin, resource, plan, chain, contract, a one-minute signature window and fresh onchain entitlement before delivering protected content. Signatures are short-lived, reusable GET capabilities, not spending authority or one-use payment receipts.
 
-Initial customer hypothesis: 1–10-person teams needing 1,000–20,000 USDC per month for operations, without a dedicated treasury analyst. The free calculator delivers a usable report; proposed paid pilots are **99 USDC per human-reviewed report** and **199 USDC/month for four weekly reports and a monthly comparison**. No automatic subscriptions, monitoring, trading or payment collection is implemented. No paid customers or revenue are claimed.
+Initial users must already have a paid product and customers holding native X Layer USDC. A plain transfer lacks an entitlement, paid-through date and renewal mandate; integrating those repeatedly is the work being replaced. Merchants needing only occasional transfers have no strong reason to pay. Established competitors include InviteMember ($19/month entry plan), MoonPay Commerce (standard 2%, HelioX 1%), Stripe (stablecoin recurring payments on listed networks) and Unlock. BBBFi is not a new uncontested category. Pricing comparisons are provider-published offerings, not independently verified sales or BBBFi demand.
 
-Scenario: 199/month price, 85/customer variable cost (60 human time + 15 data/runtime + 10 support reserve), 150 fixed monthly runtime cost. Two customers cover those fixed costs. Five customers leave 420 USDC before acquisition, tax, development and extra time. These are assumptions, not operating results. The planned validation funnel is 20 interviews → 10 free reports → 3 paid pilots → at least 2 renewals. These milestones are not claimed as achieved; fewer than three pilots triggers a demand/pricing review before automation investment.
+Every successful charge sends **99% directly to the merchant**. The initial charge sends 1% to the fixed protocol recipient. Renewals split 0.8% to the protocol and 0.2% to the permissionless executor. There is no platform deposit balance, monthly report fee or token subsidy. Buyers default to a single payment. Optional recurring mandates are bounded to 3/6/12 total charges including today, require explicit consent, and are cancellable. Cancellation preserves paid time; missed periods are not back-billed. Insufficient balance or allowance stops renewal. Merchant pause stops future payments while preserving paid access. A full current-period refund closes the subscription and returns the full price from the merchant wallet; the merchant covers processing fees already settled.
 
-Distribution starts with BBBFi and X Layer builder communities, without LP subsidies or token issuance. The calculator and guard add no platform fee. V2 LP fees are 0.3%, accrue to liquidity providers and are not counted as BBBFi revenue.
+Access computes four factual onchain predicates and evaluates processor **340**, circuit **1** in the payment transaction. For renewals these are: enabled plan, due period, remaining uncancelled authorization bound to the current membership, and sufficient balance/allowance. Exact terms, a short deadline and bounded allowance are enforced at checkout. A changed pinned TapeOut implementation stops payments, while cancellation and refunds remain available. Public source verification is not an independent audit.
+
+**No established acquisition channel, paid merchants, renewal rate or profitability is claimed.** First validation gate: three independent merchants, each with at least 20 genuine non-team orders and retention over two billing cycles. Exclude self-purchases, subsidies and prize money. Do not build more channels, currencies or chains until that gate. Stop if three qualifying merchants cannot be found in 30–45 days. Public documentation and runnable examples support self-service adoption; no outreach or partnership is claimed completed.
+
+Economics are explicit assumptions: 20 merchants × 3,000 monthly GMV = 60,000 USDC. At a conservative 0.8% renewal fee, protocol revenue is 480. Assumed monthly cost 1,235 comprises infrastructure 60, support 75, acquisition labor 100 and amortized hypothetical development/security budget 1,000. The result is a **755-USDC loss**, and 154,375 monthly GMV is needed to cover those listed costs. The security budget is not an audit quote. Taxes, disputes and extra risk costs are excluded. Merchant acquisition cost must pay back within three months of gross contribution. The interactive [research page](https://www.bbbfi.com/explore/access/business?lang=en) shows the assumptions and tradeoffs.
+
+## Access verification and integration
+
+```sh
+npm ci
+forge test --match-contract BBBFiAccessTest
+npm run access:test
+# Offline integration with mock USDC/TapeOut:
+anvil --port 8598 --chain-id 196 --gas-price 20000001 --base-fee 20000000 --disable-min-priority-fee
+npm run access:flow
+# Real native-USDC and TapeOut interfaces, synthetic local-fork payments only:
+anvil --fork-url https://rpc.xlayer.tech --port 8597 --chain-id 196 --gas-price 20000001 --base-fee 0 --disable-min-priority-fee
+node scripts/test-access-flow.mjs --fork
+```
+
+Twenty additional Access Solidity tests, eleven SDK/payment-builder tests and nine HTTP/keeper flow checks pass. The fork uses impersonated local balances and does not submit mainnet customer payments. `deployments/access-fork-flow.json` explicitly records zero real customer orders and zero mainnet transactions. The HTTP test denies unpaid requests, delivers content only after a signed paid entitlement, runs the actual keeper to renew once, then cancels and denies access at expiry. A customer-created cheaper plan cannot unlock another server-pinned plan.
+
+The independent renewal worker is at `scripts/access-keeper.mjs`. It signs only `charge(id)` against the fixed deployment, journals signed hashes before broadcasting and reconciles three confirmations. It holds its own limited gas wallet, not payer keys. Actual availability is checked through a fresh, contract-matched health endpoint; future uptime is not guaranteed. Public `/api/access/verify` is membership introspection only. Merchant servers must run the verifier with their own fixed plan ID and keep protected content off public frontend bundles.
 
 ## Mainnet deployment
 
 | Contract | Address |
 | --- | --- |
+| Access | [`0x36757BaA2F0b767Ea4DCFb434F46ACD020046f47`](https://repo.sourcify.dev/196/0x36757BaA2F0b767Ea4DCFb434F46ACD020046f47) |
 | V2 Factory | [`0xBeF275FA7E1bf43Fc80d5Bd11b3369496Ad4530A`](https://repo.sourcify.dev/196/0xBeF275FA7E1bf43Fc80d5Bd11b3369496Ad4530A) |
 | OKB Router | [`0xEA34885369cC31c673544Ac733759282dFbFC67D`](https://repo.sourcify.dev/196/0xEA34885369cC31c673544Ac733759282dFbFC67D) |
 | TapeGuard | [`0x39f7711e3f4f866849B39127ba1dF099924cb9aF`](https://repo.sourcify.dev/196/0x39f7711e3f4f866849B39127ba1dF099924cb9aF) |
 
-TapeOut processor **#340**, circuit **#1** at `0x9de448A1CE9537d24199B3b5355239d73aA6F591`. All three BBBFi contracts have Sourcify **exact_match** creation and runtime verification.
+TapeOut processor **#340**, circuit **#1** at `0x9de448A1CE9537d24199B3b5355239d73aA6F591`. All four BBBFi contracts have Sourcify **exact_match** creation and runtime verification.
 
-Deployment cost including protocol fees and gas: **0.008747463811900897 OKB**. No liquidity was added. Full transaction ledger: `deployments/mainnet-deployment.json`.
+Initial V2/TapeGuard deployment cost including protocol fees and gas: **0.008747463811900897 OKB**. No liquidity was added. Full initial transaction ledger: `deployments/mainnet-deployment.json`. Access was deployed separately in transaction `0x126ec44d4e14a956ec90b6e3342da1ab6b58603d03f5ebd24d26c77c906486ff`, costing 0.000053680977 OKB in gas. Its fee and real customer payment counters started at zero.
 
 ## Verification
 
@@ -114,3 +139,5 @@ BBBFi contract code is MIT licensed. OpenZeppelin Contracts retain their MIT lic
 - [Request Finance business model](https://help.request.finance/en/articles/10397958-what-does-request-cost)
 - [Tenderly pricing and simulation](https://tenderly.co/pricing)
 - [Dune business model](https://dune.com/blog/thoughts-on-dunes-business-model)
+
+Additional research references (checked 16 October 2026): [InviteMember](https://www.invitemember.com/pricing), [MoonPay Commerce](https://support.moonpay.com/en/articles/466267-moonpay-commerce-faqs), [Stripe stablecoins](https://docs.stripe.com/payments/stablecoin-payments), [Unlock](https://docs.unlock-protocol.com/), [Revert](https://docs.revert.finance/revert/auto-compounder), [OKX limit orders](https://web3.okx.com/id/help/what-is-limit-order-in-dex).

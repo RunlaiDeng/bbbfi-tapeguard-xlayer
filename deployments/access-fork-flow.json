@@ -1,0 +1,18 @@
+{
+  "mode": "MAINNET_FORK_SYNTHETIC_PAYMENTS",
+  "contract": "0x67d269191c92Caf3cD7723F116c85e6E9bf55933",
+  "checks": [
+    "unpaid HTTP request denied",
+    "paid signed request delivers protected HTTP content",
+    "first payment splits 99 percent directly to merchant",
+    "early renewal rejected",
+    "expired HTTP request denied before renewal",
+    "actual keeper renews once, settles fee and restores HTTP access",
+    "executor records confirmed transaction",
+    "cancel preserves paid time, then expiry denies and no further charge",
+    "paid cheaper plan cannot unlock server-pinned plan"
+  ],
+  "passed": 9,
+  "realCustomerOrders": 0,
+  "mainnetTransactions": 0
+}
