@@ -1,6 +1,6 @@
-// Offline integration: local chain 196, mock USDC/TapeOut, real Access bytecode,
-// real wallet signatures, HTTP content gate and the production keeper program.
-// This is not a mainnet fork, a real order or revenue evidence.
+// Local integration: mock mode, or real mainnet interfaces with --fork.
+// Both modes use synthetic local payments, real Access bytecode, wallet
+// signatures, an HTTP content gate and the actual keeper; no mainnet transfers.
 import fs from 'node:fs';
 import path from 'node:path';
 import httpServer from 'node:http';
