@@ -8,7 +8,7 @@ Native-USDC membership checkout, bounded automatic renewals and server-side paid
 - Market research & business plan: https://www.bbbfi.com/explore/access/business?lang=en
 - Optional guarded swap: https://www.bbbfi.com/explore/tapeguard?chain=xlayer
 - Shared Swap home: https://www.bbbfi.com/?chain=xlayer
-- Current 90-second walkthrough (UI + explicitly synthetic test results): https://raw.githubusercontent.com/RunlaiDeng/bbbfi-tapeguard-xlayer/main/demo/access-walkthrough.mp4
+- Current 90-second walkthrough (UI + explicitly synthetic test results): https://asp.bbbfi.com/api/xlayer-access/demo.mp4
 - Earlier treasury-only demo (does not demonstrate Access): https://www.bbbfi.com/social/xlayer/treasury-demo-v2.mp4
 - Interactive on-chain circuit: https://www.bbbfi.com/xlayer/about
 - Event: [Build X · TapeOut Accelerate](https://web3.okx.com/zh-hans/xlayer/build-x-series)
