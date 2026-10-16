@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "chainId": 196,
+  "market": {
+    "chainId": 196,
+    "factory": "0x4B2ab38DBF28D31D467aA8993f6c2585981D6804",
+    "quoter": "0xD1b797D92d87B688193A2B976eFc8D577D204343"
+  },
+  "asset": {
+    "symbol": "USD₮0",
+    "address": "0x779Ded0c9e1022225f8E0630b35a9b54bE713736",
+    "decimals": 6
+  },
+  "output": {
+    "symbol": "USDC",
+    "address": "0xB6CEceAB302E2E4948951eE7843FC24E92933061",
+    "decimals": 6
+  },
+  "input": {
+    "asset": "USD₮0",
+    "amount": "1000",
+    "monthly": "500",
+    "maxImpactBps": 100
+  },
+  "amount": "1000000000",
+  "target": "500000000",
+  "block": "73384791",
+  "blockTimestamp": 1792153827,
+  "observedAt": "2026-10-16T12:30:34.533Z",
+  "expiresAt": 1792153887000,
+  "routes": [
+    {
+      "fee": 100,
+      "pool": "0xEEeB3C1F61DC3070C675c2670a3f2188A060012D",
+      "status": "quoted",
+      "full": {
+        "amount": "1000000000",
+        "output": "998903773",
+        "impactBps": 2
+      },
+      "quarter": {
+        "amount": "250000000",
+        "output": "249726563",
+        "impactBps": 2
+      }
+    },
+    {
+      "fee": 500,
+      "status": "missing"
+    },
+    {
+      "fee": 3000,
+      "status": "missing"
+    },
+    {
+      "fee": 10000,
+      "status": "missing"
+    }
+  ],
+  "bestFee": 100,
+  "minimumOut": "993909254",
+  "minimumOutFormatted": "993.909254",
+  "runwayMonths": 1.98,
+  "policy": {
+    "checks": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "mask": 15,
+    "circuit": "0x01",
+    "processor": "0x9de448A1CE9537d24199B3b5355239d73aA6F591",
+    "circuitId": "1"
+  },
+  "scope": "Uniswap V3 direct pools on X Layer only; eth_call estimates, no transaction or wallet balance validation. Not a whole-market best-execution claim. The four circuit inputs are report predicates supplied by this reader, not onchain attestation of market inputs or enforced external swaps."
+}

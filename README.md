@@ -1,8 +1,12 @@
-# BBBFi TapeGuard on X Layer
+# BBBFi Treasury + TapeGuard on X Layer
 
-Noncustodial V2 swaps with transaction limits evaluated by a real TapeOut circuit.
+A free treasury runway calculator using existing X Layer market liquidity, plus optional V2 swap limits evaluated by a real TapeOut circuit.
 
-- Product: https://www.bbbfi.com/xlayer
+- Treasury tool: https://www.bbbfi.com/explore/treasury?lang=en
+- Market research & business plan: https://www.bbbfi.com/explore/treasury/business?lang=en
+- Optional guarded swap: https://www.bbbfi.com/explore/tapeguard?chain=xlayer
+- Shared Swap home: https://www.bbbfi.com/?chain=xlayer
+- Revised 109-second demo: https://www.bbbfi.com/social/xlayer/treasury-demo-v2.mp4
 - Interactive on-chain circuit: https://www.bbbfi.com/xlayer/about
 - Event: [Build X · TapeOut Accelerate](https://web3.okx.com/zh-hans/xlayer/build-x-series)
 - Network: X Layer mainnet, chain ID **196**, native gas token **OKB**.
@@ -22,11 +26,33 @@ Inputs are bit-packed LSB first. Only `0x0f` produces `0x01`; all other inputs p
 
 The guard has no owner, upgrade function or administrative withdrawal. User assets flow through only during an atomic swap. Token input approvals to the base router are exact and cleared after use. Transfer-tax tokens are unsupported. Ordinary base-router transactions remain possible; users must select the guarded entry point to obtain this policy.
 
+## Treasury runway: usable without seeding a new DEX
+
+The new reader uses the official Uniswap V3 factory and QuoterV2 on X Layer. It discovers four direct fee tiers, verifies pool identities, and simulates full and quarter-sized conversions at one block. Native Circle USDC is `0xB6CEceAB302E2E4948951eE7843FC24E92933061`; legacy bridged `0x74b7…6d22` is a separate USDC.e asset and is not reused for market quotes.
+
+The report includes output after a 0.5% buffer, monthly-spending coverage, fee-inclusive pool-relative impact, pool addresses, block/time and a JSON export. Failed routes remain unavailable. Quarter-size simulations are independent, not sequential-fill predictions. The existing market reader does not require BBBFi pool funding. It reads only Uniswap V3 direct pools, **not the whole market**.
+
+Treasury uses the same real four-input AND circuit for report predicates: available route, impact cap, one-month spending coverage and recent observation. The application supplies these inputs. TapeOut **does not attest market facts or enforce third-party swaps**. This differs from the immutable TapeGuard below, which computes its own transaction predicates onchain and enforces them inside its own V2 swap.
+
+Run the read-only tool with no wallet or secret:
+
+```sh
+npm ci
+npm run treasury:test
+npm run treasury:report -- 'USD₮0' 1000 500
+```
+
+`deployments/treasury-observation.json` is a dated mainnet observation, not a current price or a completed trade. `frontend/` contains the new Next.js page/API/style source integrated in the existing BBBFi Pages Router app; it is a source snapshot, not a separate complete Next.js app. The CLI and reader are independently runnable from this repository.
+
 ## Product, users and business
 
-Target users are individual X Layer traders and community treasury operators who need explicit, inspectable trade limits while retaining custody. Distribution starts with BBBFi's existing product entry points, builder communities and reproducible public verification examples.
+Research covered swap aggregation (Uniswap, OKX), order execution (CoW), wallet controls (Safe), enterprise payments (Request Finance), simulation (Tenderly), and analytics (Dune). Primary references, dated comparisons, explicit costs and an interactive unit-economics calculator are in the [business plan](https://www.bbbfi.com/explore/treasury/business?lang=en). This review is not an exhaustive market census or evidence of customer demand.
 
-The current guard adds **no platform fee**. V2 pools charge a 0.3% LP fee. Planned revenue is optional team policy management and developer API subscriptions, which are not launched; no earned revenue is claimed. Users would pay for shared operational controls and integrations, and return for predictable transaction boundaries and verifiable execution.
+Initial customer hypothesis: 1–10-person teams needing 1,000–20,000 USDC per month for operations, without a dedicated treasury analyst. The free calculator delivers a usable report; proposed paid pilots are **99 USDC per human-reviewed report** and **199 USDC/month for four weekly reports and a monthly comparison**. No automatic subscriptions, monitoring, trading or payment collection is implemented. No paid customers or revenue are claimed.
+
+Scenario: 199/month price, 85/customer variable cost (60 human time + 15 data/runtime + 10 support reserve), 150 fixed monthly runtime cost. Two customers cover those fixed costs. Five customers leave 420 USDC before acquisition, tax, development and extra time. These are assumptions, not operating results. The planned validation funnel is 20 interviews → 10 free reports → 3 paid pilots → at least 2 renewals. These milestones are not claimed as achieved; fewer than three pilots triggers a demand/pricing review before automation investment.
+
+Distribution starts with BBBFi and X Layer builder communities, without LP subsidies or token issuance. The calculator and guard add no platform fee. V2 LP fees are 0.3%, accrue to liquidity providers and are not counted as BBBFi revenue.
 
 ## Mainnet deployment
 
@@ -49,7 +75,7 @@ npm ci
 forge test
 ```
 
-Twenty Solidity tests cover arbitrary pairs, multihop liquidity, swaps in each direction, deadline and minimum enforcement, exact approvals, zero custody residue, quote freshness, insufficient gas reserve, changed TapeOut implementations and failing circuit outputs. Seven additional frontend-builder tests are recorded with the application release.
+Twenty Solidity tests cover arbitrary pairs, multihop liquidity, swaps in each direction, deadline and minimum enforcement, exact approvals, zero custody residue, quote freshness, insufficient gas reserve, changed TapeOut implementations and failing circuit outputs. Seven additional frontend-builder tests and eight treasury reader/policy tests pass in the application release.
 
 For a full rehearsal against real TapeOut and WOKB contracts, start a **local fork** with synthetic accounts, deploy the candidate, then execute the smoke test:
 
@@ -76,3 +102,15 @@ The live circuit test switches are test inputs, not a representation of a user's
 - [OKX canonical token list](https://github.com/okx/xlayer-tokenlist)
 
 BBBFi contract code is MIT licensed. OpenZeppelin Contracts retain their MIT license. TapeOut is an external protocol, not authored by BBBFi. Participation does not imply endorsement by OKX, X Layer or TapeOut.
+
+## Research references (checked 16 October 2026)
+
+- [Circle native USDC on X Layer](https://www.circle.com/multi-chain-usdc/xlayer)
+- [Official Uniswap deployment registry](https://developers.uniswap.org/deployments)
+- [Uniswap on X Layer](https://web3.okx.com/nl/learn/uniswap-xlayer)
+- [OKX aggregator](https://www.okx.com/en-us/learn/what-is-okx-aggregator)
+- [CoW TWAP for EVM wallets](https://cow.fi/learn/cow-swap-brings-twap-orders-to-every-evm-wallet)
+- [Safe Pro pricing](https://www.safe.global/blog/safe-pro-pricing)
+- [Request Finance business model](https://help.request.finance/en/articles/10397958-what-does-request-cost)
+- [Tenderly pricing and simulation](https://tenderly.co/pricing)
+- [Dune business model](https://dune.com/blog/thoughts-on-dunes-business-model)
