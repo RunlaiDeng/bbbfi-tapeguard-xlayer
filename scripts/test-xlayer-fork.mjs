@@ -1,0 +1,31 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {Contract,ContractFactory,JsonRpcProvider,JsonRpcSigner,parseEther} from 'ethers';
+const provider=new JsonRpcProvider('http://127.0.0.1:8596',196,{batchMaxCount:1,cacheTimeout:-1});
+assert.equal(Number(BigInt(await provider.send('eth_chainId',[]))),196);
+const record=JSON.parse(fs.readFileSync('deployments/fork-deployment.json'));
+assert.equal(record.fork,true);const owner=record.deployer;
+await provider.send('anvil_setBalance',[owner,'0x'+parseEther('1000').toString(16)]);
+const wallet=new JsonRpcSigner(provider,owner),opts={gasPrice:20_000_001n};
+const art=(f,n)=>JSON.parse(fs.readFileSync(`out/${f}/${n}.json`));
+const ta=art('BBBFiTapeGuard.t.sol','TapeTestToken');
+const token=await new ContractFactory(ta.abi,ta.bytecode.object,wallet).deploy(opts);await token.waitForDeployment();const address=await token.getAddress();
+const router=new Contract(record.router.address,art('BBBFiSwapXLayer.sol','BBBFiSwapOKBRouter').abi,wallet);
+const guard=new Contract(record.guard.address,art('BBBFiTapeGuard.sol','BBBFiTapeGuard').abi,wallet);
+const wrapped=await router.wrappedOKB();
+await (await token.approve(record.router.address,parseEther('100000'),opts)).wait();
+const block=await provider.getBlock('latest');await (await router.addLiquidityOKB(address,parseEther('100000'),1,1,owner,block.timestamp+300,{...opts,value:parseEther('100')})).wait();
+const min=out=>out-out*50n/10000n;
+async function limits(n,p){const b=await provider.getBlock('latest'),out=await router.getAmountsOut(n,p);return{minimumOut:min(out.at(-1)),quoteBlock:b.number,deadline:b.timestamp+300,maxImpactBps:300,maxSlippageBps:50};}
+const pass=[];const amount=parseEther('1'),path=[wrapped,address],l=await limits(amount,path);
+const preview=await guard.preview(owner,amount,path,l);assert.equal(preview[2],15n);assert.equal(preview[3],true);pass.push('Real TapeOut circuit authorizes the valid trade');
+const before=await token.balanceOf(owner),receipt=await(await guard.swap(amount,path,true,false,l,{...opts,value:amount,gasLimit:800000})).wait();
+assert((await token.balanceOf(owner))>before);assert.equal(await provider.getBalance(record.guard.address),0n);pass.push('Protected native OKB -> ERC20 swap settled; no native custody');
+const reverse=[address,wrapped],n=parseEther('100');await(await token.approve(record.guard.address,n,opts)).wait();
+await(await guard.swap(n,reverse,false,true,await limits(n,reverse),{...opts,gasLimit:800000})).wait();assert.equal(await token.allowance(record.guard.address,record.router.address),0n);assert.equal(await token.balanceOf(record.guard.address),0n);pass.push('Protected ERC20 -> native OKB settled; allowance reset to zero');
+async function rejects(label,amount,path,l){await assert.rejects(guard.swap.staticCall(amount,path,true,false,l,{value:amount}));pass.push(label);}
+await rejects('High-impact trade rejected by real circuit',parseEther('50'),path,await limits(parseEther('50'),path));
+await rejects('Weak minimum received rejected',amount,path,{...await limits(amount,path),minimumOut:1n});
+const stale=await limits(amount,path);stale.quoteBlock-=31;await rejects('Stale block rejected',amount,path,stale);
+fs.writeFileSync('deployments/fork-smoke.json',JSON.stringify({forkOnly:true,syntheticFunding:true,chainId:196,processor:record.processor.address,circuitId:record.circuit.id,swapTransaction:receipt.hash,checks:pass},null,2));
+console.log(JSON.stringify({forkOnly:true,checks:pass},null,2));provider.destroy();

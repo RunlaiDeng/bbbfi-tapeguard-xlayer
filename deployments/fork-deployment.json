@@ -1,0 +1,182 @@
+{
+  "version": 1,
+  "network": "X Layer mainnet",
+  "chainId": 196,
+  "deployer": "0x2475Dcd4Fe333bE814Ef7C8f8CE8A1E9B5FcDEA0",
+  "balanceOKB": "0.030217217886456332",
+  "deployFeeOKB": "0.0066",
+  "mintFeeOKB": "0.00066",
+  "gasPriceWei": "20000001",
+  "maxTotalSpendOKB": "0.012",
+  "minimumRetainedOKB": "0.015",
+  "broadcast": true,
+  "fork": true,
+  "startedAt": "2026-10-16T11:39:16.701Z",
+  "initialBalanceWei": "30217217886456332",
+  "transactions": [
+    {
+      "label": "TapeOut.createCPU",
+      "hash": "0x99ccc0d04b209a2f61406208bb43e9375f456e564d1f029fbfe88be8b669dff5",
+      "blockNumber": 73381669,
+      "contractAddress": null,
+      "gasUsed": "763198",
+      "gasPriceWei": "20000001",
+      "valueWei": "6600000000000000"
+    },
+    {
+      "label": "TapeOut.mint6NAND",
+      "hash": "0x02b9d9f991cc76d9c61df703adcd75554a274a65412171dccd334779b5900316",
+      "blockNumber": 73381670,
+      "contractAddress": null,
+      "gasUsed": "137699",
+      "gasPriceWei": "20000001",
+      "valueWei": "660000000000000"
+    },
+    {
+      "label": "TapeOut.tapeout",
+      "hash": "0x1ea5d34701b257c754fdcb6ab205d958d3b9233d7d1a856830eda560172eb362",
+      "blockNumber": 73381671,
+      "contractAddress": null,
+      "gasUsed": "253140",
+      "gasPriceWei": "20000001",
+      "valueWei": "1300000000000000"
+    },
+    {
+      "label": "factory",
+      "hash": "0xd06c6e9e687e118cf0e9ea343a97c7985ca65be456545cc3004d8db994dd89c0",
+      "blockNumber": 73381672,
+      "contractAddress": "0xBeF275FA7E1bf43Fc80d5Bd11b3369496Ad4530A",
+      "gasUsed": "2200018",
+      "gasPriceWei": "20000001",
+      "valueWei": "0"
+    },
+    {
+      "label": "router",
+      "hash": "0xd3957b26f4ccd1147672c77a81562a33eb29ac8f78a77c65775112b53b8a59ac",
+      "blockNumber": 73381673,
+      "contractAddress": "0xEA34885369cC31c673544Ac733759282dFbFC67D",
+      "gasUsed": "1590985",
+      "gasPriceWei": "20000001",
+      "valueWei": "0"
+    },
+    {
+      "label": "guard",
+      "hash": "0x07dba3f8cb0dcf9354745e4df3d37c1bd033e5bf27b3a179c61fbfd2b8833066",
+      "blockNumber": 73381674,
+      "contractAddress": "0x39f7711e3f4f866849B39127ba1dF099924cb9aF",
+      "gasUsed": "2390447",
+      "gasPriceWei": "20000001",
+      "valueWei": "0"
+    },
+    {
+      "label": "createEmptyWOKBUSDC",
+      "hash": "0x2776673727b626d75b56ae629fe23bd494a70315291663bb52122ead0a7d36d2",
+      "blockNumber": 73381675,
+      "contractAddress": null,
+      "gasUsed": "1634261",
+      "gasPriceWei": "20000001",
+      "valueWei": "0"
+    }
+  ],
+  "processor": {
+    "address": "0x9de448A1CE9537d24199B3b5355239d73aA6F591",
+    "transistors": "0x729F874FF12faAdd73e8F921D65d23516717b145",
+    "index": "340"
+  },
+  "minted": true,
+  "circuit": {
+    "id": "1",
+    "netlistHash": "0x7ec481d9e1a141296c006944c8099fef21e747fb08c632bda2f5c7805b50b29c",
+    "truthTable": [
+      {
+        "input": "0x00",
+        "output": "0x00"
+      },
+      {
+        "input": "0x01",
+        "output": "0x00"
+      },
+      {
+        "input": "0x02",
+        "output": "0x00"
+      },
+      {
+        "input": "0x03",
+        "output": "0x00"
+      },
+      {
+        "input": "0x04",
+        "output": "0x00"
+      },
+      {
+        "input": "0x05",
+        "output": "0x00"
+      },
+      {
+        "input": "0x06",
+        "output": "0x00"
+      },
+      {
+        "input": "0x07",
+        "output": "0x00"
+      },
+      {
+        "input": "0x08",
+        "output": "0x00"
+      },
+      {
+        "input": "0x09",
+        "output": "0x00"
+      },
+      {
+        "input": "0x0a",
+        "output": "0x00"
+      },
+      {
+        "input": "0x0b",
+        "output": "0x00"
+      },
+      {
+        "input": "0x0c",
+        "output": "0x00"
+      },
+      {
+        "input": "0x0d",
+        "output": "0x00"
+      },
+      {
+        "input": "0x0e",
+        "output": "0x00"
+      },
+      {
+        "input": "0x0f",
+        "output": "0x01"
+      }
+    ]
+  },
+  "factory": {
+    "address": "0xBeF275FA7E1bf43Fc80d5Bd11b3369496Ad4530A",
+    "creationHash": "0xd545213f06c09169463bc76b6699da3c03bb1e00f410c5c755e3fdf392096853",
+    "runtimeHash": "0x3e0527b7a7e2491b9167ba9098ee422fdb3cde4ba945cd988c68b94bc1aebdd0"
+  },
+  "router": {
+    "address": "0xEA34885369cC31c673544Ac733759282dFbFC67D",
+    "creationHash": "0x2c2db4ddcefaec0c5cb5572d18504c8f1c5aaabeb4305f505a1de7921e2781b4",
+    "runtimeHash": "0x10c774ce3f87a90acc421eeb85617f3501bf9e8fbf57b786a9c62c7cee49873f"
+  },
+  "guard": {
+    "address": "0x39f7711e3f4f866849B39127ba1dF099924cb9aF",
+    "creationHash": "0x1a2e59a31fb474f34aa5b5b13eed0bb11a4bddf4f004d07a848fc405bb7145de",
+    "runtimeHash": "0xc16429bcce2c563e26e711d036836970f5020785649bd51791cce23953b237a8"
+  },
+  "seedPair": {
+    "address": "0xf80077FeEb0c656BdbFb206A9383B109aEf9f1B6",
+    "token0": "0x74b7F16337b8972027F6196A17a631aC6dE26d22",
+    "token1": "0xe538905cf8410324e03A5A23C1c177a474D59b2b",
+    "liquidityAdded": false
+  },
+  "completedAt": "2026-10-16T11:39:37.146Z",
+  "totalSpentOKB": "0.008739394968969748",
+  "remainingOKB": "0.021510508139120845",
+  "liveLiquidityAdded": false
+}

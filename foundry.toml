@@ -1,0 +1,12 @@
+[profile.default]
+src = "contracts"
+test = "test-solidity"
+out = "out"
+libs = ["node_modules"]
+solc = "0.8.23"
+optimizer = true
+optimizer_runs = 200
+via_ir = true
+evm_version = "shanghai"
+auto_detect_remappings = false
+remappings = ["@openzeppelin/=node_modules/@openzeppelin/", "@uniswap/=node_modules/@uniswap/", "base64-sol/=node_modules/base64-sol/", "hardhat/=node_modules/hardhat/"]

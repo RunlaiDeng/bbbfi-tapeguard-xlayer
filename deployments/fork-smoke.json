@@ -1,0 +1,16 @@
+{
+  "forkOnly": true,
+  "syntheticFunding": true,
+  "chainId": 196,
+  "processor": "0x9de448A1CE9537d24199B3b5355239d73aA6F591",
+  "circuitId": "1",
+  "swapTransaction": "0x8725a7b9020dfa178d69317da2321a9c2286e0cb835d94cf7a89ff131bfe9434",
+  "checks": [
+    "Real TapeOut circuit authorizes the valid trade",
+    "Protected native OKB -> ERC20 swap settled; no native custody",
+    "Protected ERC20 -> native OKB settled; allowance reset to zero",
+    "High-impact trade rejected by real circuit",
+    "Weak minimum received rejected",
+    "Stale block rejected"
+  ]
+}

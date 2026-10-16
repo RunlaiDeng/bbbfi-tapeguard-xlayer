@@ -1,0 +1,20 @@
+{
+  "name": "bbbfi-tapeguard-xlayer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "forge test",
+    "build": "forge build",
+    "plan": "node scripts/deploy-xlayer.mjs"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "5.6.1",
+    "dotenv": "17.4.2",
+    "ethers": "6.17.0"
+  }
+}
