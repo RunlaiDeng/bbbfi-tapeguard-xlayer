@@ -1,0 +1,26 @@
+{
+  "chainId": 196,
+  "contracts": {
+    "factory": {
+      "address": "0xBeF275FA7E1bf43Fc80d5Bd11b3369496Ad4530A",
+      "status": "exact_match",
+      "creationMatch": "exact_match",
+      "runtimeMatch": "exact_match",
+      "runtimeHash": "0x3e0527b7a7e2491b9167ba9098ee422fdb3cde4ba945cd988c68b94bc1aebdd0"
+    },
+    "router": {
+      "address": "0xEA34885369cC31c673544Ac733759282dFbFC67D",
+      "status": "exact_match",
+      "creationMatch": "exact_match",
+      "runtimeMatch": "exact_match",
+      "runtimeHash": "0x10c774ce3f87a90acc421eeb85617f3501bf9e8fbf57b786a9c62c7cee49873f"
+    },
+    "guard": {
+      "address": "0x39f7711e3f4f866849B39127ba1dF099924cb9aF",
+      "status": "exact_match",
+      "creationMatch": "exact_match",
+      "runtimeMatch": "exact_match",
+      "runtimeHash": "0xc16429bcce2c563e26e711d036836970f5020785649bd51791cce23953b237a8"
+    }
+  }
+}

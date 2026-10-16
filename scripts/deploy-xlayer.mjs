@@ -34,18 +34,59 @@ if(!deploy){console.log(JSON.stringify(summary,null,2));provider.destroy();proce
 let record=fs.existsSync(recordPath)?JSON.parse(fs.readFileSync(recordPath)): {version:1,...summary,startedAt:new Date().toISOString(),initialBalanceWei:String(balance),transactions:[]};
 if(record.chainId!==196||record.deployer!==owner||record.fork!==fork)throw Error('Record scope mismatch');
 const save=()=>fs.writeFileSync(recordPath,JSON.stringify(record,null,2)+'\n');
+const rawPath=recordPath+'.pending-raw';
 const spent=()=>record.transactions.reduce((s,t)=>s+BigInt(t.valueWei)+BigInt(t.gasUsed)*BigInt(t.gasPriceWei),0n);
+async function finalize(receipt) {
+ if(!receipt||receipt.status!==1)throw Error('Deployment transaction failed');
+ const pending=record.pending;
+ const item={label:pending.label,hash:receipt.hash,blockNumber:receipt.blockNumber,contractAddress:receipt.contractAddress,gasUsed:String(receipt.gasUsed),gasPriceWei:String(receipt.gasPrice),valueWei:pending.valueWei};
+ if(!record.transactions.some(t=>t.hash===item.hash))record.transactions.push(item);
+ if(['factory','router','guard'].includes(pending.label))record[pending.label]={address:receipt.contractAddress,creationHash:pending.creationHash};
+ if(pending.label==='TapeOut.mint6NAND')record.minted=true;
+ if(pending.label==='TapeOut.tapeout'){
+  const iface=new Interface(circuitABI),e=receipt.logs.map(l=>{try{return iface.parseLog(l)}catch{return null}}).find(l=>l?.name==='TapedOut');
+  if(!e)throw Error('Circuit event missing');record.circuit={id:String(e.args.circuitId),netlistHash:keccak256(netlist)};
+ }
+ if(pending.label==='TapeOut.createCPU'){
+  const e=receipt.logs.map(l=>{try{return tf.interface.parseLog(l)}catch{return null}}).find(l=>l?.name==='CPUCreated');
+  if(!e||getAddress(e.args.creator)!==owner)throw Error('CPU event missing');
+  const count=await tf.cpuCount();let index=BigInt(pending.processorIndex);
+  while(index<count&&getAddress(await tf.cpuAt(index))!==getAddress(e.args.circuits))index++;
+  if(index===count)throw Error('Processor index unavailable');
+  record.processor={address:e.args.circuits,transistors:e.args.transistors,index:String(index)};
+ }
+ delete record.pending;save();if(fs.existsSync(rawPath))fs.unlinkSync(rawPath);
+ console.log(JSON.stringify(item));return receipt;
+}
+if(record.pending){
+ let receipt=await provider.getTransactionReceipt(record.pending.hash);
+ if(!receipt){
+  if(!fs.existsSync(rawPath))throw Error('Pending transaction needs manual reconciliation');
+  const raw=fs.readFileSync(rawPath,'utf8');if(keccak256(raw)!==record.pending.hash)throw Error('Pending raw transaction hash mismatch');
+  try{await provider.broadcastTransaction(raw);}catch(error){if(!/already known|nonce too low/i.test(error.shortMessage||error.message))throw error;}
+  receipt=await provider.waitForTransaction(record.pending.hash,fork?1:3,60000);
+ }
+ await finalize(receipt);
+}
 async function send(label,tx){
- if(record.pending){const receipt=await provider.getTransactionReceipt(record.pending.hash);if(!receipt)throw Error('Pending deployment transaction; inspect before retry');throw Error('Unrecorded receipt requires reconciliation: '+record.pending.hash);}
+ if(record.pending)throw Error('Pending deployment transaction');
  const latest=await provider.getTransactionCount(owner,'latest'),pending=await provider.getTransactionCount(owner,'pending');if(latest!==pending)throw Error('Signer has pending transaction');
  const gas=(await provider.estimateGas({...tx,from:owner}))*130n/100n;
  const maximum=gas*gasPrice+(tx.value||0n);
  if(spent()+maximum>parseEther('0.012') || (await provider.getBalance(owner))-maximum<parseEther('0.015'))throw Error('Spend/retained cap exceeded');
- const response=await wallet.sendTransaction({...tx,gasLimit:gas,gasPrice,type:0,nonce:pending});
- record.pending={label,hash:response.hash,valueWei:String(tx.value||0n)};save();
- const receipt=await response.wait(fork?1:3);if(receipt.status!==1)throw Error(label+' failed');
- const item={label,hash:receipt.hash,blockNumber:receipt.blockNumber,contractAddress:receipt.contractAddress,gasUsed:String(receipt.gasUsed),gasPriceWei:String(receipt.gasPrice),valueWei:String(tx.value||0n)};
- record.transactions.push(item);delete record.pending;save();console.log(JSON.stringify(item));return receipt;
+ const full={...tx,chainId:196,gasLimit:gas,gasPrice,type:0,nonce:pending};
+ let response;
+ if(fork){response=await wallet.sendTransaction(full);record.pending={label,hash:response.hash,valueWei:String(tx.value||0n)};}
+ else {
+  const raw=await wallet.signTransaction(full);fs.writeFileSync(rawPath,raw,{mode:0o600});
+  record.pending={label,hash:keccak256(raw),valueWei:String(tx.value||0n)};
+  if(!tx.to)record.pending.creationHash=keccak256(tx.data);
+  if(label==='TapeOut.createCPU')record.pending.processorIndex=record.proposedProcessorIndex;
+  save();response=await provider.broadcastTransaction(raw);
+ }
+ if(!tx.to)record.pending.creationHash=keccak256(tx.data);
+ if(label==='TapeOut.createCPU')record.pending.processorIndex=record.proposedProcessorIndex;
+ save();return finalize(await response.wait(fork?1:3));
 }
 function artifact(file,name){return JSON.parse(fs.readFileSync(path.join(root,'out',file,name+'.json')));}
 async function contract(label,file,name,args=[]){
@@ -56,12 +97,13 @@ async function contract(label,file,name,args=[]){
  if(actual!==normalized)throw Error('Runtime mismatch '+label);record[label].runtimeHash=keccak256(code);save();return new Contract(address,a.abi,wallet);
 }
 if(!record.processor){
- const index=await tf.cpuCount();
+ const index=await tf.cpuCount();record.proposedProcessorIndex=String(index);save();
  const receipt=await send('TapeOut.createCPU',await tf.createCPU.populateTransaction('BBBFi TapeGuard','BBBTG','Verifiable four-condition swap protection on X Layer. Price impact, minimum received, quote freshness, gas reserve.',10000,0,{value:deployFee}));
  const decoded=receipt.logs.map(l=>{try{return tf.interface.parseLog(l)}catch{return null}}).find(l=>l?.name==='CPUCreated');
  if(!decoded||getAddress(decoded.args.creator)!==owner)throw Error('CPU event missing');
- record.processor={address:decoded.args.circuits,transistors:decoded.args.transistors,index:String(index)};save();
+ if(!record.processor)throw Error('Processor not recorded');delete record.proposedProcessorIndex;save();
 }
+if(getAddress(await tf.cpuAt(record.processor.index))!==getAddress(record.processor.address))throw Error('Processor index mismatch');
 const tr=new Contract(record.processor.transistors,transistorABI,wallet),cpu=new Contract(record.processor.address,circuitABI,wallet);
 if(!record.minted){const held=await tr.balanceOf(owner,0);if(held<6n){const fee=await tr.protocolFee(),price=await tr.mintPrice();await send('TapeOut.mint6NAND',await tr.mint.populateTransaction(0,6n-held,{value:fee+price*(6n-held)}));}record.minted=true;save();}
 if(!record.circuit){const fee=await cpu.TAPEOUT_FEE();if(fee>parseEther('0.002'))throw Error('Unexpected tapeout fee');const receipt=await send('TapeOut.tapeout',await cpu.tapeout.populateTransaction(netlist,4,1,{value:fee}));const event=receipt.logs.map(l=>{try{return cpu.interface.parseLog(l)}catch{return null}}).find(l=>l?.name==='TapedOut');if(!event)throw Error('Circuit event missing');record.circuit={id:String(event.args.circuitId),netlistHash:keccak256(netlist)};save();}

@@ -28,6 +28,18 @@ Target users are individual X Layer traders and community treasury operators who
 
 The current guard adds **no platform fee**. V2 pools charge a 0.3% LP fee. Planned revenue is optional team policy management and developer API subscriptions, which are not launched; no earned revenue is claimed. Users would pay for shared operational controls and integrations, and return for predictable transaction boundaries and verifiable execution.
 
+## Mainnet deployment
+
+| Contract | Address |
+| --- | --- |
+| V2 Factory | [`0xBeF275FA7E1bf43Fc80d5Bd11b3369496Ad4530A`](https://repo.sourcify.dev/196/0xBeF275FA7E1bf43Fc80d5Bd11b3369496Ad4530A) |
+| OKB Router | [`0xEA34885369cC31c673544Ac733759282dFbFC67D`](https://repo.sourcify.dev/196/0xEA34885369cC31c673544Ac733759282dFbFC67D) |
+| TapeGuard | [`0x39f7711e3f4f866849B39127ba1dF099924cb9aF`](https://repo.sourcify.dev/196/0x39f7711e3f4f866849B39127ba1dF099924cb9aF) |
+
+TapeOut processor **#340**, circuit **#1** at `0x9de448A1CE9537d24199B3b5355239d73aA6F591`. All three BBBFi contracts have Sourcify **exact_match** creation and runtime verification.
+
+Deployment cost including protocol fees and gas: **0.008747463811900897 OKB**. No liquidity was added. Full transaction ledger: `deployments/mainnet-deployment.json`.
+
 ## Verification
 
 Requires Node.js 20+, npm, and Foundry supporting Solidity 0.8.23. No private key is needed for tests.
