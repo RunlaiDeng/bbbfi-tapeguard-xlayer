@@ -1,0 +1,17 @@
+✔ changing chains drops all token, amount, quote and foreign-chain parameters (1.322125ms)
+✔ navigation no longer switches wallet networks; DEX remounts state per network (0.712ms)
+✔ amount rejects imprecise, negative, exponential and excessive values (0.87775ms)
+✔ minimum uses integer arithmetic and preserves rounding at tiny amounts (0.107666ms)
+✔ approval is exact and uses fresh allowance (3.130166ms)
+✔ stale or future block cannot request approval or signing (0.285667ms)
+✔ rejects changed network, amount and token identity (0.186ms)
+✔ fresh gas balance and token balance are required (0.141166ms)
+✔ selected impact limit reaches the actual on-chain preview (0.1105ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 206.181709

@@ -1,0 +1,33 @@
+Warning: This is a nightly build of Foundry. It is recommended to use the latest stable version. To mute this warning set `FOUNDRY_DISABLE_NIGHTLY_WARNING` in your environment. 
+
+Compiling 20 files with Solc 0.8.23
+Solc 0.8.23 finished in 20.87s
+Compiler run successful!
+
+Ran 4 tests for test-solidity/BBBFiSwapXLayer.t.sol:BBBFiSwapXLayerTest
+[PASS] testArbitraryTokenLiquidityAndMultiHopSwap() (gas: 3669295)
+[PASS] testDeadlineAndSlippageAreEnforced() (gas: 1861356)
+[PASS] testFactoryPermissionlesslyCreatesDeterministicPairs() (gas: 3243737)
+[PASS] testNativeOKBLiquiditySwapFeeAndWithdrawal() (gas: 1996554)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 8.03ms (2.09ms CPU time)
+
+Ran 16 tests for test-solidity/BBBFiTapeGuard.t.sol:BBBFiTapeGuardTest
+[PASS] testPreviewCheckMask() (gas: 59914)
+[PASS] testProtectedNativeSwapAndNoCustody() (gas: 156297)
+[PASS] testProtectedTokenToNativeClearsApproval() (gas: 184714)
+[PASS] testProtectedTokenToToken() (gas: 2345575)
+[PASS] testRejectChangedImplementation() (gas: 108791)
+[PASS] testRejectDisabledCircuit() (gas: 95527)
+[PASS] testRejectDrainedGasReserve() (gas: 75673)
+[PASS] testRejectExcessDeadline() (gas: 72674)
+[PASS] testRejectExcessImpact() (gas: 72418)
+[PASS] testRejectExpiredDeadline() (gas: 75429)
+[PASS] testRejectFutureQuote() (gas: 72506)
+[PASS] testRejectLoosenedCaps() (gas: 115242)
+[PASS] testRejectRepeatedRoute() (gas: 23287)
+[PASS] testRejectStaleQuote() (gas: 75247)
+[PASS] testRejectWeakMinimum() (gas: 72403)
+[PASS] testRejectWrongNativeValue() (gas: 43202)
+Suite result: ok. 16 passed; 0 failed; 0 skipped; finished in 8.30ms (3.92ms CPU time)
+
+Ran 2 test suites in 15.01ms (16.32ms CPU time): 20 tests passed, 0 failed, 0 skipped (20 total tests)
